@@ -3,6 +3,10 @@ import ProductsData from './ProductsData.json';
 import Products from './components/Products';
 import FilterCategory from './components/FilterCategory';
 import Cart from './components/Cart';
+import store from './store';
+import { Provider } from 'react-redux';
+// import SignIn from './components/SignIn';
+// import SignUp from './components/SignIn';
 
 class App extends React.Component{
   constructor(){
@@ -55,6 +59,9 @@ class App extends React.Component{
   }
   render(){
   return (
+    // <SignIn></SignIn>
+    // <SignUp></SignUp>
+    <Provider store={store}>
     <div className="grid-container">
       <header>
         <a href='/'>Grocery Mart</a>        
@@ -77,6 +84,7 @@ class App extends React.Component{
       </main>
       <footer>Alright Reserved</footer>
     </div>
+    </Provider>
   );
   }
 }
