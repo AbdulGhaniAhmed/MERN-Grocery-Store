@@ -1,13 +1,27 @@
 import React, { Component } from 'react';
 import Currency from "../currencyFormat";
 import Fade from "react-reveal/Flip";
+import { connect } from 'react-redux';
+import {fetchProducts} from '../actions/productActions';
 
-export default class Products extends Component {
+class Products extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            product: null,
+        };
+    }
+    componentDidMount(){
+        this.props.fetchProducts();
+    }
     render() {
         return (
             <div>
                 <Fade bottom cascade>
-                <ul className="products">
+                    {
+                        !this.props.products ? 
+                        (<div>Loading...</div>):
+                        (<ul className="products">
                     {this.props.products.map((product)=>(
                     <li key={product._id}>
                      <div className="product">
@@ -16,15 +30,19 @@ export default class Products extends Component {
                                 <p>{product.title}</p>
                             </a>
                             <div className="price">
-                            <div>{Currency(product.price)}</div>
+                            <div>{product.price}</div>
                             <button onClick={() => this.props.addToCart(product)} className="button-primary">Add To Cart</button>
                             </div>
                       </div>
                     </li>
                     ))}
-                </ul>
+                </ul>)
+                    }
+                
                 </Fade>
             </div>
         );
     } 
 }
+
+export default connect((state)=>({products: state.products.items}),{fetchProducts})(Products);
